@@ -24,8 +24,8 @@ def read_image_as_byte_array(input_file):
         return buffer
 
 def mutate_byte_array(buffer, num):
-    mutation_method = num %3
-    # mutation_method = 0
+    # mutation_method = num %3
+    mutation_method = 0     # to find bug_6 use mutation_method=2 and run a couple thousand times
     if mutation_method == 0: #change one byte at a random location to a random value
         buff_len = len(buffer)
         rand_pos = random.randint(0, buff_len - 1)
