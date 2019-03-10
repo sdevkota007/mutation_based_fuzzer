@@ -1,14 +1,13 @@
 import subprocess
 import random
 import os
-import remove_test
 import time
 import shutil
 import json
 
 
 TOTAL_NUM_OF_BUGS = 8
-NUM_OF_MUTATION = 100000
+NUM_OF_MUTATION = 10000
 WORKING_DIR = os.getcwd()
 MOMENT=time.strftime("%Y-%b-%d__%H_%M_%S",time.localtime())
 DESTINATION = os.path.join(WORKING_DIR, "archive", "run_{}".format(MOMENT))
@@ -25,8 +24,8 @@ def read_image_as_byte_array(input_file):
         return buffer
 
 def mutate_byte_array(buffer, num):
-    # mutation_method = num %3
-    mutation_method = 2
+    mutation_method = num %3
+    # mutation_method = 0
     if mutation_method == 0: #change one byte at a random location to a random value
         buff_len = len(buffer)
         rand_pos = random.randint(0, buff_len - 1)
@@ -87,7 +86,7 @@ def archive_test_files():
             src = os.path.join(WORKING_DIR, file)
             dst = os.path.join(DESTINATION, file)
             shutil.move(src, dst)
-    print("All test Files moved to archive directory")
+    print("All test Files which produceed bugs moved to archive: {}".format(DESTINATION))
 
 def main():
     BUGS_FOUND = []
@@ -149,7 +148,7 @@ def main():
             print("This shouldn't print", output)
 
         if i%1000 == 0:
-            print("Iteration {0}. Bugs found: {1}".format(i,BUGS_FOUND))
+            print("\n****************Iteration {0}. Bugs found: {1}*******************\n".format(i,BUGS_FOUND))
 
 
 
@@ -158,7 +157,7 @@ def main():
 
     total_bugs_trigerred = count_bug1 + count_bug2 + count_bug3 + count_bug4 + count_bug5 + count_bug6 + count_bug7 + count_bug8
     print("*******REPORT*******")
-    print("Number of test_files: {}".format(i))
+    print("Number of test_files: {}".format(i+1))
     print("Bugs Trigerred: {} times".format(total_bugs_trigerred))
     print("Bug1_count: {}".format(count_bug1))
     print("Bug2_count: {}".format(count_bug2))
